@@ -1,5 +1,6 @@
 package org.example;
-
+import java.io.PrintWriter;
+import java.io.FileWriter;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
@@ -50,6 +51,7 @@ public class Algoritmo {
         // Obtiene el archivo seleccionado
         File selectedFile = fileChooser.getSelectedFile();
         String fileName = selectedFile.getAbsolutePath();
+        String outputFileName = agregarCAlNombre(fileName);
 
 
         long HoraInicio = System.currentTimeMillis();
@@ -282,5 +284,53 @@ public class Algoritmo {
         //Tiempo total de cálculo
         long TiempFinal = System.currentTimeMillis();
         System.out.println("Tiempo total: " + (TiempFinal-HoraInicio) + "ms");
+
+        // Guardar la salida en un archivo de texto
+        guardarSalidaEnArchivo(outputFileName, CaminoEleg, distancia, DistanEquipo, DistanTotal, TiempFinal - HoraInicio);
+    }
+    private static String agregarCAlNombre(String fileName) {
+        File inputFile = new File(fileName);
+        String parentDirectory = inputFile.getParent();
+        String inputFileName = inputFile.getName();
+
+        int dotIndex = inputFileName.lastIndexOf('.');
+        String nameWithoutExtension = dotIndex == -1 ? inputFileName : inputFileName.substring(0, dotIndex);
+        String extension = dotIndex == -1 ? "" : inputFileName.substring(dotIndex);
+
+        return parentDirectory + File.separator + nameWithoutExtension + "C" + extension;
+    }
+    private static void guardarSalidaEnArchivo(String outputFileName, int[] CaminoEleg, int distancia, int[] DistanEquipo, int DistanTotal, long tiempoTotal) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(outputFileName))) {
+            writer.println("La mejor ruta de PTorneo encontrada hasta ahora con restricción de peso de estrellas: ");
+
+            // Imprimir la mejor ruta encontrada
+            for (int a = 0; a < CaminoEleg.length; a++) {
+                if (a != CaminoEleg.length - 1) {
+                    writer.print(CaminoEleg[a] + "->");
+                } else {
+                    writer.print(CaminoEleg[a]);
+                }
+            }
+            writer.println();
+            writer.println("Con una distancia de:" + distancia);
+            writer.println();
+
+            // Imprimir la distancia recorrida por cada equipo
+            for (int j = 0; j < DistanEquipo.length; j++) {
+                writer.println("Equipo " + (j + 1) + " tiene una distancia total recorrida de: " + DistanEquipo[j]);
+            }
+
+            // Imprimir la distancia total recorrida por todos los equipos
+            writer.println();
+            writer.println("Distancia total de viaje del equipo: " + DistanTotal);
+
+            // Imprimir el tiempo total de ejecución
+            writer.println();
+            writer.println("Tiempo total: " + tiempoTotal + "ms");
+
+            System.out.println("Resultados guardados en el archivo '" + outputFileName + "'");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
