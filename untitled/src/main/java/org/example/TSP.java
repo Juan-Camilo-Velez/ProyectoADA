@@ -1,11 +1,6 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Scanner;
 
 
@@ -15,11 +10,15 @@ public class TSP {
         //Prepare for user input
         BufferedReader userinput = new BufferedReader(new
                 InputStreamReader(System.in));
-
-        //Get file name
         String fileName = "";
-        System.out.println("Coloque el conjunto de datos en la carpeta raíz y escriba el nombre del archivo (por ejemplo: data8.txt):");
-        fileName = userinput.readLine();
+
+        try {
+            System.out.println("Coloque el conjunto de datos en la carpeta raíz y escriba el nombre del archivo (por ejemplo: data8.txt):");
+            fileName = userinput.readLine();
+        } catch (FileNotFoundException e) {
+            System.err.println("Error: El archivo D.txt no se encuentra en la ubicación especificada.");
+            e.printStackTrace();
+        }
 
 
         //Start counter
