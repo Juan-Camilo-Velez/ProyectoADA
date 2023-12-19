@@ -4,10 +4,9 @@ import java.io.*;
 import java.util.Scanner;
 
 
-public class TSP {
+public class Algortimo {
     public static void main(String[] args) throws IOException {
 
-        //Prepare for user input
         BufferedReader userinput = new BufferedReader(new
                 InputStreamReader(System.in));
         String fileName = "";
@@ -21,14 +20,12 @@ public class TSP {
         }
 
 
-        //Start counter
         long startTime = System.currentTimeMillis();
 
-        //Read in each distance from the distance matrix within the text file
         Scanner readFile;
         readFile = new Scanner(new File(fileName));
 
-        //find size of problem based on input file
+
         int n = 0;
         do{
             readFile.nextInt();
@@ -211,7 +208,11 @@ public class TSP {
         int [][]schedule = new int [n][2*n-2];
 
         //Pass onto the next algorithm
+<<<<<<< HEAD:untitled/src/main/java/org/example/TSP.java
         schedule = PTorneo.part2(ha,pathFormatted,n);
+=======
+        schedule = OptimizadoEJ.part2(ha,pathFormatted,n);
+>>>>>>> eddc58812779a118c35f500fdbb6f34b47d89ffa:untitled/src/main/java/org/example/Algortimo.java
 
         //Get distances
         int []teamDistance= new int [n];
