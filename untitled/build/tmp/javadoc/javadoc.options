@@ -1,0 +1,8 @@
+-classpath 'C:\\Users\\velez\\IdeaProjects\\ProyectoADA\\untitled\\build\\classes\\java\\main;C:\\Users\\velez\\IdeaProjects\\ProyectoADA\\untitled\\build\\resources\\main'
+-d 'C:\\Users\\velez\\IdeaProjects\\ProyectoADA\\untitled\\build\\docs\\javadoc'
+-doctitle 'untitled 1.0-SNAPSHOT API'
+-notimestamp 
+-quiet 
+-windowtitle 'untitled 1.0-SNAPSHOT API'
+'C:\\Users\\velez\\IdeaProjects\\ProyectoADA\\untitled\\src\\main\\java\\org\\example\\Algoritmo.java'
+'C:\\Users\\velez\\IdeaProjects\\ProyectoADA\\untitled\\src\\main\\java\\org\\example\\PTorneo.java'
