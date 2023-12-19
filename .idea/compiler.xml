@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="ProyectoFinalADA" target="21" />
       <module name="untitled" target="21" />
       <module name="untitled.main" target="21" />
       <module name="untitled.test" target="21" />
