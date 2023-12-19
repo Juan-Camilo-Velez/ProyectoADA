@@ -1,68 +1,80 @@
 package org.example;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.util.Scanner;
-
 
 public class Algortimo {
     public static void main(String[] args) throws IOException {
 
-        BufferedReader userinput = new BufferedReader(new
-                InputStreamReader(System.in));
-        String fileName = "";
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Seleccione el archivo D.txt");
 
-        try {
-            System.out.println("Coloque el conjunto de datos en la carpeta raíz y escriba el nombre del archivo (por ejemplo: data8.txt):");
-            fileName = userinput.readLine();
-        } catch (FileNotFoundException e) {
-            System.err.println("Error: El archivo D.txt no se encuentra en la ubicación especificada.");
-            e.printStackTrace();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt");
+        fileChooser.setFileFilter(filter);
+
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result != JFileChooser.APPROVE_OPTION) {
+            System.out.println("Operación cancelada por el usuario.");
+            return;
         }
 
+        File selectedFile = fileChooser.getSelectedFile();
+        String fileName = selectedFile.getAbsolutePath();
 
         long startTime = System.currentTimeMillis();
 
-        Scanner readFile;
-        readFile = new Scanner(new File(fileName));
+        Scanner readFile = new Scanner(selectedFile);
 
+        // Leer el máximo consecutivo de juegos en casa/fuera
+        int ha = readFile.nextInt();
 
         int n = 0;
-        do{
+        while (readFile.hasNextInt()) {
             readFile.nextInt();
             n++;
-        }while(readFile.hasNext());
-        n = (int) Math.sqrt(n);//take square root of total number of integers in file to get number of cities
-        readFile.close();//exhausted hasNext(), close file
+        }
+        n = (int) Math.sqrt(n);
+        readFile.close();
 
+        // ...
 
-
-        //Create distance matrix
+        // Create distance matrix
         int[][] cityDistances = new int[n][n];
         int i = 0;
         int j = 0;
 
-        readFile = new Scanner(new File(fileName));
+        readFile = new Scanner(selectedFile);
 
-        //Populate distance matrix
-        for(j=0;j<n;j++){
-            for(i=0;i<n;i++){
-                cityDistances [i][j] = readFile.nextInt();
+        // Saltear la línea que contiene el máximo consecutivo de juegos en casa/fuera
+        readFile.nextLine();
+
+        // Populate distance matrix
+        for (j = 0; j < n; j++) {
+            for (i = 0; i < n; i++) {
+                cityDistances[i][j] = readFile.nextInt();
             }
         }
-        readFile.close();//close file
+        readFile.close();
 
+        // Max consecutive home and away games
+        while (ha > n - 1 || ha <= 0) {
+            try {
+                System.out.println("Ingrese el máximo consecutivo de juegos en casa/fuera:");
+                ha = Integer.parseInt(new BufferedReader(new InputStreamReader(System.in)).readLine());
 
-        int ha = 0;
-        //Max consecutive home and away games
-        while(ha > n-1 || ha <= 0){
-
-            System.out.println("Ingrese el máximo consecutivo de juegos en casa/fuera:");
-            ha = Integer.parseInt(userinput.readLine());
-
-            if(ha > n-1 || ha <= 0){
-                System.out.println("Se ha introducido un valor no válido. El valor debe ser mayor que 0 y menor que (# de equipos - 1):");
+                if (ha > n - 1 || ha <= 0) {
+                    System.out.println("Se ha introducido un valor no válido. El valor debe ser mayor que 0 y menor que (# de equipos - 1):");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Por favor, ingrese un número válido.");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+
 
 
 
@@ -210,7 +222,6 @@ public class Algortimo {
         //Pass onto the next algorithm
 
         schedule = PTorneo.PTorneo(ha,pathFormatted,n);
-
 
         //Get distances
         int []teamDistance= new int [n];
