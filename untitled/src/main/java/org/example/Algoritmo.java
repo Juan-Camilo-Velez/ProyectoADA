@@ -265,8 +265,8 @@ public class Algoritmo {
         System.out.println("Distancia total de viaje del equipo: " + DistanTotal);
         System.out.println();
         //Tiempo total de cálculo
-        long endTime = System.currentTimeMillis();
-        System.out.println("Total time: " + (endTime-HoraInicio) + "ms");
+        long TiempFinal = System.currentTimeMillis();
+        System.out.println("Total time: " + (TiempFinal-HoraInicio) + "ms");
 
 
     }
