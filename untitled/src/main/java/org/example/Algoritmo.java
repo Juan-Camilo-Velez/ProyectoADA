@@ -28,15 +28,18 @@ public class Algoritmo {
      * @throws IOException Si hay un error de entrada/salida durante la ejecución.
      */
     public static void main(String[] args) throws IOException {
+        // Especifica la ubicación inicial para el selector de archivos
+        String initialDirectory = "C:\\Users\\velez\\IdeaProjects\\ProyectoADA\\untitled\\Matrices";
 
-        // Crear un selector de archivos
-        JFileChooser fileChooser = new JFileChooser();
+        // Crea un selector de archivos
+        JFileChooser fileChooser = new JFileChooser(initialDirectory);
         fileChooser.setDialogTitle("SELECCIONADOR DE ARCHIVOS");
 
-        // Filtrar para mostrar solo archivos .txt
+        // Filtra para mostrar solo archivos .txt
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Solo Permite Archivos (*.txt)", "txt");
         fileChooser.setFileFilter(filter);
 
+        // Muestra el diálogo de selección de archivos
         int result = fileChooser.showOpenDialog(null);
 
         if (result != JFileChooser.APPROVE_OPTION) {
@@ -44,7 +47,9 @@ public class Algoritmo {
             return;
         }
 
+        // Obtiene el archivo seleccionado
         File selectedFile = fileChooser.getSelectedFile();
+        String fileName = selectedFile.getAbsolutePath();
 
 
         long HoraInicio = System.currentTimeMillis();
