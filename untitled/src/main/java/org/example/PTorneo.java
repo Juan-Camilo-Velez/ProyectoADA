@@ -22,7 +22,7 @@ public class PTorneo {
      * @return Matriz de horario TTP.
      * @throws IOException Si hay un error de entrada/salida.
      */
-    public static int[][] PTorneo(int ha, int[] equipos, int n) throws IOException {
+    public static int[][] PTorneo(int ha,int min, int[] equipos, int n) throws IOException {
         //nodos = el equipo que está en ese nodo del gráfico donde está nodos(1)
         //siempre el equipo n que tiene la longitud de estrella más pequeña
         int[] nodos = new int[n];
@@ -45,7 +45,7 @@ public class PTorneo {
         int numero = -1; //número=-1 -> lejos; numero=1 -> casa
 
         //primera mitad del vector de local-fuera (primera ronda)
-        for (a = 0; a < ((int) n / ha / 2) * ha; a = a + ha) {
+        for (a = 0; a < ((int) n / ha / 2) * ha ; a = a + ha) {
             for (b = 0; b < ha; b++)
                 vector[a + b] = numero;
             numero = numero * -1;
@@ -68,7 +68,7 @@ public class PTorneo {
         for (r = 0; r < n - 1; r++) {
             //para rondas>1, cambie el valor local/visitante en el primer nodo (si ha habido
             //un número máximo de partidos consecutivos en casa o fuera de casa
-            if (r != 0 && r % ha == 0) {
+            if (r != 0 && r % ha == 0 && r >= min) {
                 vector[0] = -1 * vector[0];
                 vector[n - 1] = -1 * vector[n - 1];
             }
