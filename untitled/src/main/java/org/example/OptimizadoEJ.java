@@ -2,7 +2,7 @@ package org.example;
 
 import java.io.IOException;
 
-public class part2 {
+public class OptimizadoEJ {
     public static int[][] part2(int ha, int[] teams, int n) throws IOException
     {
 
