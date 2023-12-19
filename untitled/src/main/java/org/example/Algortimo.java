@@ -229,11 +229,8 @@ public class Algortimo {
         int [][]schedule = new int [n][2*n-2];
 
         //Pass onto the next algorithm
-<<<<<<< HEAD:untitled/src/main/java/org/example/TSP.java
-        schedule = PTorneo.part2(ha,pathFormatted,n);
-=======
-        schedule = OptimizadoEJ.part2(ha,pathFormatted,n);
->>>>>>> eddc58812779a118c35f500fdbb6f34b47d89ffa:untitled/src/main/java/org/example/Algortimo.java
+
+        schedule = PTorneo.PTorneo(ha,pathFormatted,n);
 
         //Get distances
         int []teamDistance= new int [n];
