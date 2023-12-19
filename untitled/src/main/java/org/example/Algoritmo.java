@@ -129,7 +129,7 @@ public class Algoritmo {
 
         int TiempDistancia=0;
         int [] TiempCamino = new int[n+1];
-        int Tiempte = 0;
+        int Tiempte;
 
         //Copiar ruta de inicio
         for(i=0;i<n+1;i++){
