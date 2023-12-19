@@ -211,7 +211,7 @@ public class TSP {
         int [][]schedule = new int [n][2*n-2];
 
         //Pass onto the next algorithm
-        schedule = part2.part2(ha,pathFormatted,n);
+        schedule = PTorneo.part2(ha,pathFormatted,n);
 
         //Get distances
         int []teamDistance= new int [n];
