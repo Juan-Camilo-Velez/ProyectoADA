@@ -1,160 +1,184 @@
 package org.example;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.util.Scanner;
 
-
+/**
+ * Clase que implementa un algoritmo específico.
+ */
 public class Algoritmo {
+
+    /**
+     * Método principal que inicia la ejecución del algoritmo.
+     *
+     * @param args Argumentos de la línea de comandos (no se utilizan en este caso).
+     * @throws IOException Si hay un error de entrada/salida durante la ejecución.
+     */
     public static void main(String[] args) throws IOException {
 
-        BufferedReader EntradaUs = new BufferedReader(new
-                InputStreamReader(System.in));
-        String NomArch = "";
+        // Crear un selector de archivos
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Seleccione el archivo D.txt");
 
-        try {
-            System.out.println("Coloque el conjunto de datos en la carpeta raíz y escriba el nombre del archivo (por ejemplo: data8.txt):");
-            NomArch = EntradaUs.readLine();
-        } catch (FileNotFoundException e) {
-            System.err.println("Error: El archivo D.txt no se encuentra en la ubicación especificada.");
-            e.printStackTrace();
+        // Filtrar para mostrar solo archivos .txt
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt");
+        fileChooser.setFileFilter(filter);
+
+        int result = fileChooser.showOpenDialog(null);
+
+        if (result != JFileChooser.APPROVE_OPTION) {
+            System.out.println("Operación cancelada por el usuario.");
+            return;
         }
 
+        File selectedFile = fileChooser.getSelectedFile();
+        String fileName = selectedFile.getAbsolutePath();
 
-        long HoraInicio = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
 
-        Scanner LeerArch;
-        LeerArch = new Scanner(new File(NomArch));
+        Scanner readFile = new Scanner(selectedFile);
 
+        // Leer el máximo consecutivo de juegos en casa/fuera
+        int ha = readFile.nextInt();
 
         int n = 0;
-        do{
-            LeerArch.nextInt();
+        while (readFile.hasNextInt()) {
+            readFile.nextInt();
             n++;
-        }while(LeerArch.hasNext());
-        n = (int) Math.sqrt(n);//saque la raíz cuadrada del número total de números enteros en el archivo para obtener el número de ciudades
-        LeerArch.close();//hasNext() agotado, cierra el archivo
+        }
+        n = (int) Math.sqrt(n);
+        readFile.close();
 
+        // ...
 
-
-        //Crear matriz de distancias
-        int[][] DistCiudades = new int[n][n];
+        // Create distance matrix
+        int[][] cityDistances = new int[n][n];
         int i = 0;
         int j = 0;
 
-        LeerArch = new Scanner(new File(NomArch));
+        readFile = new Scanner(selectedFile);
 
-        //Llenar matriz de distancias
-        for(j=0;j<n;j++){
-            for(i=0;i<n;i++){
-                DistCiudades [i][j] = LeerArch.nextInt();
+        // Saltear la línea que contiene el máximo consecutivo de juegos en casa/fuera
+        readFile.nextLine();
+
+        // Populate distance matrix
+        for (j = 0; j < n; j++) {
+            for (i = 0; i < n; i++) {
+                cityDistances[i][j] = readFile.nextInt();
             }
         }
-        LeerArch.close();//cerrar el archivo
+        readFile.close();
 
+        // Max consecutive home and away games
+        while (ha > n - 1 || ha <= 0) {
+            try {
+                /*
+                 * Solicitar al usuario que ingrese el máximo consecutivo de juegos en casa/fuera.
+                 * Se seguirá solicitando hasta que se ingrese un valor válido.
+                 */
+                System.out.println("Ingrese el máximo consecutivo de juegos en casa/fuera:");
+                ha = Integer.parseInt(new BufferedReader(new InputStreamReader(System.in)).readLine());
 
-        int ha = 0;
-        //Máximo de partidos consecutivos en casa y fuera de casa
-        while(ha > n-1 || ha <= 0){
-
-            System.out.println("Ingrese el máximo consecutivo de juegos en casa/fuera:");
-            ha = Integer.parseInt(EntradaUs.readLine());
-
-            if(ha > n-1 || ha <= 0){
-                System.out.println("Se ha introducido un valor no válido. El valor debe ser mayor que 0 y menor que (# de equipos - 1):");
+                if (ha > n - 1 || ha <= 0) {
+                    System.out.println("Se ha introducido un valor no válido. El valor debe ser mayor que 0 y menor que (# de equipos - 1):");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Por favor, ingrese un número válido.");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
+        int[][] starWeight = new int[n][1];
+        int indexWeight = 0;
 
-
-        int [][]PesoEstrellas = new int [n][1];
-        int PesoIndice = 0;
-
-
-        //Obtenga pesos de estrellas para cada ciudad.
-        for(j=0;j<n;j++){
-            for(i=0;i<n;i++){
-                PesoEstrellas[j][0] += DistCiudades[i][j];
+        //Obtener pesos de estrella para cada ciudad
+        for (j = 0; j < n; j++) {
+            for (i = 0; i < n; i++) {
+                starWeight[j][0] += cityDistances[i][j];
             }
         }
 
         //Inicializar peso de estrella
-        int PesoTiemp = 10000000;
+        int tempWeight = 10000000;
 
-        //Identificar el peso mínimo de las estrellas
-        for(i=0;i<n;i++){
-            if(PesoEstrellas[i][0]<PesoTiemp){
-                PesoTiemp = PesoEstrellas[i][0];
-                PesoIndice = i;
+        //Identificar el peso de estrella mínimo
+        for (i = 0; i < n; i++) {
+            if (starWeight[i][0] < tempWeight) {
+                tempWeight = starWeight[i][0];
+                indexWeight = i;
             }
         }
 
-        System.out.println(PesoEstrellas[PesoIndice][0]+" es el peso mínimo de estrella que pertenece al índice " + PesoIndice);
+        System.out.println(starWeight[indexWeight][0] + " es el peso de estrella mínimo que pertenece al índice " + indexWeight);
         System.out.println();
 
-        //Solucion PTorneo
-        int[]CaminoEleg = new int [n+1];
-        int distancia = 0;
+        //TSP Solver
+        int[] chosenPath = new int[n + 1];
+        int distance = 0;
 
-        //Llenar la ruta inicial
-        for(i=1;i<n;i++){
-            if(i!=PesoIndice){
-                CaminoEleg[i] = i;
+        //Poblar la ruta inicial
+        for (i = 1; i < n; i++) {
+            if (i != indexWeight) {
+                chosenPath[i] = i;
             }
         }
 
-        //Establecer el peso mínimo de la estrella como nodo inicial/final
-        CaminoEleg [0] = PesoIndice;
-        CaminoEleg [n] = PesoIndice;
+        //Establecer el peso de estrella mínimo como nodo de inicio/final
+        chosenPath[0] = indexWeight;
+        chosenPath[n] = indexWeight;
 
-        //calcular la distancia total
-        for(i=0;i<n;i++){
-            distancia += DistCiudades[CaminoEleg[i]][CaminoEleg[i+1]];
+        //Calcular la distancia total
+        for (i = 0; i < n; i++) {
+            distance += cityDistances[chosenPath[i]][chosenPath[i + 1]];
         }
 
-        int TiempDistancia=0;
-        int [] TiempCamino = new int[n+1];
-        int Tiempte = 0;
+        int tempDistance = 0;
+        int[] tempPath = new int[n + 1];
+        int tempHold = 0;
 
-        //Copiar ruta de inicio
-        for(i=0;i<n+1;i++){
-            TiempCamino[i] = CaminoEleg[i];
+        //Copiar la ruta de inicio
+        for (i = 0; i < n + 1; i++) {
+            tempPath[i] = chosenPath[i];
         }
 
-        //iniciar intercambios
-        int contar = 0;
+        //Comenzar intercambios
+        int count = 0;
 
-        //Comenzar primero aceptar algoritmo
-        while(contar!=100){
+        //Comenzar primer algoritmo de aceptación
+        while (count != 100) {
 
-            for(j=1;j<n-1;j++){
-                for(i=1;i<n-1;i++){
-                    //Comience a intercambiar nodos, pero deje solo el nodo con peso mínimo de estrella
-                    Tiempte=TiempCamino[j];
-                    TiempCamino[j]=TiempCamino[i];
-                    TiempCamino[i]=Tiempte;
-                    TiempDistancia = 0;
+            for (j = 1; j < n - 1; j++) {
+                for (i = 1; i < n - 1; i++) {
+                    //Comenzar a intercambiar nodos, pero dejar el nodo de peso de estrella mínimo solo
+                    tempHold = tempPath[j];
+                    tempPath[j] = tempPath[i];
+                    tempPath[i] = tempHold;
+                    tempDistance = 0;
 
-                    //Calcular la distancia del nuevo camino propuesto.
-                    for(int z=0;z<n;z++){
-                        TiempDistancia += DistCiudades[TiempCamino[z]][TiempCamino[z+1]];
+                    //Calcular la distancia de la nueva ruta propuesta
+                    for (int z = 0; z < n; z++) {
+                        tempDistance += cityDistances[tempPath[z]][tempPath[z + 1]];
                     }
-                    //Compruebe si la ruta propuesta es mejor y, de ser así, reemplácela
-                    if(TiempDistancia<distancia){
-                        for(int b=0;b<n+1;b++){
-                            TiempCamino[b]=TiempCamino[b];
+                    //Comprobar si la ruta propuesta es mejor y, si es así, reemplazar
+                    if (tempDistance < distance) {
+                        for (int b = 0; b < n + 1; b++) {
+                            chosenPath[b] = tempPath[b];
 
                         }
-                        distancia = TiempDistancia;
+                        distance = tempDistance;
 
-                        System.out.println("Ruta PTorneo más corta encontrada hasta ahora: " + distancia);//a medida que se encuentran mejores caminos...
+                        System.out.println("Ruta TSP más corta encontrada hasta ahora: " + distance);//a medida que se encuentran rutas mejores...
 
                     }
 
-                    //revertir el cambio a Tiempte
-                    else{
-                        Tiempte=TiempCamino[i];
-                        TiempCamino[i]=TiempCamino[j];
-                        TiempCamino[j]=Tiempte;
+                    //revertir cambio a tempPath
+                    else {
+                        tempHold = tempPath[i];
+                        tempPath[i] = tempPath[j];
+                        tempPath[j] = tempHold;
 
                     }
 
@@ -162,114 +186,104 @@ public class Algoritmo {
 
             }
             //Para el bucle while
-            contar++;
+            count++;
         }
 
-
-
         System.out.println();
-        System.out.println("La mejor ruta de PTorneo encontrada hasta ahora con restricción de peso de estrellas: " );
+        System.out.println("Mejor ruta TSP encontrada hasta ahora con restricción de peso de estrella: ");
 
         //Imprimir la mejor ruta encontrada
-        for(int a=0;a<n+1;a++){
-            if(a!=n){
-                System.out.print(CaminoEleg[a]+ "->");
+        for (int a = 0; a < n + 1; a++) {
+            if (a != n) {
+                System.out.print(chosenPath[a] + "->");
+            } else {
+                System.out.print(chosenPath[a]);
             }
-            else {
-                System.out.print(CaminoEleg[a]);
-            }}
+        }
         System.out.println();
-        System.out.println("Con una distancia de:" + distancia);
+        System.out.println("Con una distancia de: " + distance);
 
+        //El siguiente algoritmo requiere un formato específico de la solución TSP
+        int pathFormatted[] = new int[n];
 
-
-
-        //El siguiente algoritmo requiere un formato específico de la solución TSP.
-        int CaminoForm[] = new int [n];
-
-        //Sólo el último nodo tiene el peso mínimo de estrella.
-        for(i=0;i<CaminoForm.length;i++){
-            CaminoForm[i]=CaminoEleg[i+1];
+        //Solo el último nodo es el peso de estrella mínimo
+        for (i = 0; i < pathFormatted.length; i++) {
+            pathFormatted[i] = chosenPath[i + 1];
         }
 
         System.out.println();
-        System.out.println("Reformateando la ruta para usarla en la parte 2... ");
+        System.out.println("Reformateando la ruta para usar en la parte 2... ");
         System.out.println();
-        //Imprime la ruta reformateada
-        for(int a=0;a<n;a++){
-            if(a!=(n-1))
-                System.out.print(CaminoForm[a]+ "->");
-            else System.out.print(CaminoForm[a]);
+        //Imprimir la ruta reformateada
+        for (int a = 0; a < n; a++) {
+            if (a != (n - 1))
+                System.out.print(pathFormatted[a] + "->");
+            else System.out.print(pathFormatted[a]);
         }
         System.out.println();
         System.out.println();
 
-        //Crear matriz de programación TTP
-        int [][]Cronograma = new int [n][2*n-2];
+        //Crear matriz de horario TTP
+        int[][] schedule = new int[n][2 * n - 2];
 
         //Pasar al siguiente algoritmo
 
-        Cronograma = PTorneo.PTorneo(ha,CaminoForm,n);
-
+        schedule = PTorneo.PTorneo(ha, pathFormatted, n);
 
         //Obtener distancias
-        int []DistanEquipo= new int [n];
-        int DistanTotal = 0;
+        int[] teamDistance = new int[n];
+        int totalDistance = 0;
 
-        for(j=0;j<n;j++){
-            for(i=0;i<(2*n-3);i++){
+        for (j = 0; j < n; j++) {
+            for (i = 0; i < (2 * n - 3); i++) {
 
-                if(i==0 && Cronograma[j][i]<0){
-                    //Primer partido fuera de casa
-                    //Nota: (programa[j][i])-1) debido a que los números de las ciudades se incrementan en +1 para evitar el problema con -0 = 0
-                    DistanEquipo[j] += DistCiudades[j][Math.abs(Cronograma[j][i])-1];
+                if (i == 0 && schedule[j][i] < 0) {
+                    //Primer juego fuera
+                    //Nota: (schedule[j][i])-1) debido a que los números de ciudad se incrementan en +1 para evitar el problema con -0 = 0
+                    teamDistance[j] += cityDistances[j][Math.abs(schedule[j][i]) - 1];
                 }
 
-                //2x partidos en casa o (1 en casa y 1 fuera)
-                if(Cronograma[j][i]>0){
+                //2x juegos en casa o (1 en casa 1 fuera)
+                if (schedule[j][i] > 0) {
 
-                    //no ir a ninguna parte 2x a casa
-                    if(Cronograma[j][i+1]>0){
-                        DistanEquipo[j] += DistCiudades[j][j];
+                    //no ir a ninguna parte 2x en casa
+                    if (schedule[j][i + 1] > 0) {
+                        teamDistance[j] += cityDistances[j][j];
                     }
                     //1 en casa, 1 fuera
-                    else{
-                        DistanEquipo[j] += DistCiudades[j][Math.abs(Cronograma[j][i+1])-1];
+                    else {
+                        teamDistance[j] += cityDistances[j][Math.abs(schedule[j][i + 1]) - 1];
                     }
 
                 }
-                //1lejos 1 en casa
-                else if(Cronograma[j][i+1]>0){
-                    DistanEquipo[j] += DistCiudades[Math.abs(Cronograma[j][i])-1][j];
+                //1 fuera 1 en casa
+                else if (schedule[j][i + 1] > 0) {
+                    teamDistance[j] += cityDistances[Math.abs(schedule[j][i]) - 1][j];
                 }
 
-                //2 de distancia
-                else{DistanEquipo[j] += DistCiudades[Math.abs(Cronograma[j][i])-1][Math.abs(Cronograma[j][i+1])-1];
+                //2 fuera
+                else {
+                    teamDistance[j] += cityDistances[Math.abs(schedule[j][i]) - 1][Math.abs(schedule[j][i + 1]) - 1];
                 }
 
-                //Si el último partido fue fuera de casa, regrese a casa.
-                if(i==(2*n-4) && Cronograma [j][i+1]<0){
-                    DistanEquipo[j] += DistCiudades[j][Math.abs(Cronograma[j][i+1])-1];
+                //Si el último juego es fuera, regresar a casa
+                if (i == (2 * n - 4) && schedule[j][i + 1] < 0) {
+                    teamDistance[j] += cityDistances[j][Math.abs(schedule[j][i + 1]) - 1];
                 }
             }
 
-
-
-
-            //Imprime la distancia recorrida por cada equipo.
-            System.out.println("Equipo "+(j+1)+ " tiene una distancia total recorrida de: " + DistanEquipo[j]);
-            DistanTotal += DistanEquipo[j];
+            //Imprimir la distancia de viaje de cada equipo
+            System.out.println("El equipo " + (j + 1) + " tiene una distancia total de viaje de: " + teamDistance[j]);
+            totalDistance += teamDistance[j];
         }
-        //Distancia total recorrida por todos los equipos.
+        //Distancia total recorrida por todos los equipos
         System.out.println();
-        System.out.println("Distancia total de viaje del equipo: " + DistanTotal);
+        System.out.println("Distancia total de viaje del equipo: " + totalDistance);
         System.out.println();
         //Tiempo total de cálculo
-        long TiempFinal = System.currentTimeMillis();
-        System.out.println("Total time: " + (TiempFinal-HoraInicio) + "ms");
-
+        long endTime = System.currentTimeMillis();
+        System.out.println("Tiempo total: " + (endTime - startTime) + "ms");
 
     }
-
 
 }
