@@ -20,16 +20,16 @@ public class Algoritmo {
 
         // Crear un selector de archivos
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Seleccione el archivo D.txt");
+        fileChooser.setDialogTitle("SELECCIONADOR DE ARCHIVOS");
 
         // Filtrar para mostrar solo archivos .txt
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Solo Permite Archivos (*.txt)", "txt");
         fileChooser.setFileFilter(filter);
 
         int result = fileChooser.showOpenDialog(null);
 
         if (result != JFileChooser.APPROVE_OPTION) {
-            System.out.println("Operación cancelada por el usuario.");
+            System.out.println("Operación Cancelada por el Usuario.");
             return;
         }
 
@@ -70,26 +70,6 @@ public class Algoritmo {
             }
         }
         readFile.close();
-
-        // Max consecutive home and away games
-        while (ha > n - 1 || ha <= 0) {
-            try {
-                /*
-                 * Solicitar al usuario que ingrese el máximo consecutivo de juegos en casa/fuera.
-                 * Se seguirá solicitando hasta que se ingrese un valor válido.
-                 */
-                System.out.println("Ingrese el máximo consecutivo de juegos en casa/fuera:");
-                ha = Integer.parseInt(new BufferedReader(new InputStreamReader(System.in)).readLine());
-
-                if (ha > n - 1 || ha <= 0) {
-                    System.out.println("Se ha introducido un valor no válido. El valor debe ser mayor que 0 y menor que (# de equipos - 1):");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Por favor, ingrese un número válido.");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
         int[][] starWeight = new int[n][1];
         int indexWeight = 0;
