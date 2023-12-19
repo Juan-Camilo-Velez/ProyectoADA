@@ -2,7 +2,7 @@ package org.example;
 
 import java.io.IOException;
 
-public class OptimizadoEJ {
+public class PTorneo {
     public static int[][] PTorneo(int ha, int[] equipos, int n) throws IOException
     {
 
@@ -52,7 +52,7 @@ public class OptimizadoEJ {
         for(r=0; r<n-1;r++)
         {
             //para rondas>1, cambie el valor local/visitante en el primer nodo (si ha habido
-            //un número máximo de partidos seguidos en casa/fuera
+            //un número máximo de partidos consecutivos en casa o fuera de casa
 
             if(r!=0 && r%ha==0)
             {
@@ -79,7 +79,7 @@ public class OptimizadoEJ {
         a=n-2;
         for(r=n-1;r<2*n-2;r++)
         {
-            for(b=0;b<n;b++) //b=equipos
+            for(b=0;b<n;b++) //b=equipo
                 calendario[b][r]=-1*calendario[b][a-1];
             a=a+1;
             if (a==n)
@@ -88,7 +88,7 @@ public class OptimizadoEJ {
 
 
 //imprimir/mostrar el cronograma resultante
-        System.out.println("horario del equipo::");
+        System.out.println("horario del equipo:");
         for (a=0; a<n;a++){
             for(b=0;b<2*n-2;b++){
                 System.out.print(calendario[a][b]);
