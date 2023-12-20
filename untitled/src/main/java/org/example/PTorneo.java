@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.IOException;
+
 /**
  * Clase que implementa el algoritmo PTorneo para resolver el problema específico.
  */
@@ -10,20 +11,20 @@ public class PTorneo {
      * Este constructor no realiza ninguna acción específica.
      */
     public PTorneo() {
-        // Puedes agregar algún comentario aquí si es necesario.
     }
 
     /**
      * Método que implementa el algoritmo PTorneo para resolver el problema.
      *
-     * @param ha    Descripción del parámetro ha.
-     * @param min   Descripción del parámetro min.
-     * @param equipos   Descripción del parámetro equipos.
-     * @param n     Descripción del parámetro n.
-     * @return      Una matriz con los resultados del algoritmo.
-     * @throws IOException Descripción de cuándo podría ocurrir la excepción.
+     * @param ha       Número de veces que cada equipo juega en casa de manera consecutiva.
+     * @param min      Número mínimo de veces que un equipo debe jugar en casa de manera consecutiva.
+     * @param equipos  Arreglo que representa a los equipos.
+     * @param n        Número total de equipos.
+     * @return         Una matriz con los resultados del algoritmo.
+     * @throws IOException  Excepción de entrada/salida que puede ocurrir durante la ejecución.
      */
     public static int[][] PTorneo(int ha, int min, int[] equipos, int n) throws IOException {
+        // Crear nodos con la distribución inicial de equipos
         int[] nodos = new int[n];
         nodos[0] = equipos[n - 1];
 
@@ -38,6 +39,7 @@ public class PTorneo {
             }
         }
 
+        // Inicializar vector de asignación de partidos en casa/fuera
         int[] vector = new int[n];
         int numero = -1;
 
@@ -54,6 +56,7 @@ public class PTorneo {
         for (a = 0; a < n / 2; a++)
             vector[a + n / 2] = -1 * vector[n / 2 - a - 1];
 
+        // Inicializar matriz de calendario
         int[][] calendario = new int[n][2 * n - 2];
         int r;
         int k;
@@ -93,6 +96,7 @@ public class PTorneo {
             }
             System.out.println();
         }
+        System.out.println("\n");
 
         return calendario;
     }

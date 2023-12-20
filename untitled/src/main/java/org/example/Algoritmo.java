@@ -72,9 +72,6 @@ public class Algoritmo {
         n = (int) Math.sqrt(n);
         readFile.close();
 
-        // ...
-
-        // Create distance matrix
         int[][] DistCiudades = new int[n][n];
         int i;
         int j;
@@ -93,13 +90,13 @@ public class Algoritmo {
 
 
 
-        int [][]PesoEstrellas = new int [n][1];
+        int [][]PesoNodo= new int [n][1];
         int PesoIndice = 0;
 
         // Obtener los pesos de los nodos para cada ciudad.
         for(j=0;j<n;j++){
             for(i=0;i<n;i++){
-                PesoEstrellas[j][0] += DistCiudades[i][j];
+                PesoNodo[j][0] += DistCiudades[i][j];
             }
         }
 
@@ -108,13 +105,13 @@ public class Algoritmo {
 
         // Identificar el peso del nodo mínimo
         for(i=0;i<n;i++){
-            if(PesoEstrellas[i][0]<PesoTiemp){
-                PesoTiemp = PesoEstrellas[i][0];
+            if(PesoNodo[i][0]<PesoTiemp){
+                PesoTiemp = PesoNodo[i][0];
                 PesoIndice = i;
             }
         }
 
-        System.out.println(PesoEstrellas[PesoIndice][0]+" es el peso mínimo del nodo que pertenece al índice " + PesoIndice);
+        System.out.println(PesoNodo[PesoIndice][0]+" es el peso mínimo del nodo que pertenece al índice " + PesoIndice);
         System.out.println();
 
         // Solucion PTorneo
@@ -128,7 +125,7 @@ public class Algoritmo {
             }
         }
 
-        // Establecer el peso mínimo de la estrella como nodo inicial/final
+        // Establecer el peso mínimo del  nodo inicial/final
         CaminoEleg [0] = PesoIndice;
         CaminoEleg [n] = PesoIndice;
 
@@ -187,7 +184,7 @@ public class Algoritmo {
         }
 
         System.out.println();
-        System.out.println("La mejor ruta de PTorneo encontrada hasta ahora con restricción de peso de estrellas: " );
+        System.out.println("La mejor ruta de PTorneo encontrada es (nodos): " );
 
         // Imprimir la mejor ruta encontrada
         for(int a=0;a<n+1;a++){
