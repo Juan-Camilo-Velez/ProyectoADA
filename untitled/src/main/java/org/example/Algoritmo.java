@@ -309,7 +309,7 @@ public class Algoritmo {
      */
     private static void guardarSalidaEnArchivo(String outputFileName, int[] CaminoEleg, int distancia, int[] DistanEquipo, int DistanTotal, long tiempoTotal) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(outputFileName))) {
-            writer.println("La mejor ruta de PTorneo encontrada hasta ahora con restricción de peso de estrellas: ");
+            writer.println("La mejor ruta de PTorneo encontrada es (nodos): ");
 
             // Imprimir la mejor ruta encontrada
             for (int a = 0; a < CaminoEleg.length; a++) {
