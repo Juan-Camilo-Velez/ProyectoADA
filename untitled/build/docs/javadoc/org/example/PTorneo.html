@@ -90,7 +90,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">PTorneo</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Clase que implementa un algoritmo específico relacionado con torneos.</div>
+<div class="block">Clase que implementa el algoritmo PTorneo para resolver el problema específico.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -104,7 +104,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">PTorneo</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Constructor predeterminado.</div>
+<div class="block">Constructor predeterminado de la clase PTorneo.</div>
 </div>
 </div>
 </section>
@@ -126,7 +126,7 @@ loadScripts(document, 'script');</script>
  int[]&nbsp;equipos,
  int&nbsp;n)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Realiza operaciones específicas del torneo para generar un horario TTP.</div>
+<div class="block">Método que implementa el algoritmo PTorneo para resolver el problema.</div>
 </div>
 </div>
 </div>
@@ -149,7 +149,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>PTorneo</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">PTorneo</span>()</div>
-<div class="block">Constructor predeterminado. No se requieren parámetros.</div>
+<div class="block">Constructor predeterminado de la clase PTorneo.
+ Este constructor no realiza ninguna acción específica.</div>
 </section>
 </li>
 </ul>
@@ -168,16 +169,17 @@ loadScripts(document, 'script');</script>
  int[]&nbsp;equipos,
  int&nbsp;n)</span>
                        throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
-<div class="block">Realiza operaciones específicas del torneo para generar un horario TTP.</div>
+<div class="block">Método que implementa el algoritmo PTorneo para resolver el problema.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>ha</code> - Máximo consecutivo de juegos en casa/fuera.</dd>
-<dd><code>equipos</code> - Arreglo de equipos.</dd>
-<dd><code>n</code> - Número de equipos.</dd>
+<dd><code>ha</code> - Descripción del parámetro ha.</dd>
+<dd><code>min</code> - Descripción del parámetro min.</dd>
+<dd><code>equipos</code> - Descripción del parámetro equipos.</dd>
+<dd><code>n</code> - Descripción del parámetro n.</dd>
 <dt>Returns:</dt>
-<dd>Matriz de horario TTP.</dd>
+<dd>Una matriz con los resultados del algoritmo.</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - Si hay un error de entrada/salida.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - Descripción de cuándo podría ocurrir la excepción.</dd>
 </dl>
 </section>
 </li>
